@@ -4,21 +4,20 @@ $.fn.route = function(options) {
 
 	if (this.is("a")) {
 
-        var title   = this.attr( 'title' );
+        var title = this.attr('title'),
+            appendTitle = $.joomla.appendTitle;
 
-        if( $.joomla.appendTitle == 'before')
-        {
-            title   = $.joomla.sitename + ' - ' + title;
+        if (appendTitle==="before") {
+            title = $.joomla.sitename + ((title) ? " - " + title : "");
         }
 
-        if( $.joomla.appendTitle == 'after' )
-        {
-            title   = $.joomla.sitename + ' - ' + title;
+        if (appendTitle==="after") {
+            title = ((title) ? title + " - " : "") + $.joomla.sitename;
         }
 
-	    // Creating a unique timestamp that will be associated with the state.
-	    var t = new Date().getTime();
-	    timestamps[t] = t;
+        // Creating a unique timestamp that will be associated with the state.
+        var t = new Date().getTime();
+        timestamps[t] = t;
 
 		History.pushState($.extend({timestamp: t, refresh: true}, options), title , this.attr("href"));
 	}
